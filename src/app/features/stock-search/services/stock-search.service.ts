@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
-import { StockInformation } from '../models/stock-information.model';
+import { StockInformation } from '../../../shared/models/stock-information.model';
 import { StockSearchResult } from '../models/stock-search-result.model';
 
 @Injectable({

@@ -1,0 +1,13 @@
+<h2>Selected stocks:</h2>
+
+<ng-container *ngIf="selectedStocks$ | async as selectedStocks">
+  <ul *ngIf="selectedStocks.length; else noStocksSelected">
+    <li *ngFor="let stock of selectedStocks">
+      {{ stock.symbol }} - {{ stock.name }}
+    </li>
+  </ul>
+</ng-container>
+
+<ng-template #noStocksSelected>
+  <p>No stocks selected.</p>
+</ng-template>

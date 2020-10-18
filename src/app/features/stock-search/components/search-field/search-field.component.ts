@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { StockInformation } from '../models/stock-information.model';
+import { StoreService } from 'src/app/core/services/store.service';
+import { StockInformation } from '../../../../shared/models/stock-information.model';
 
-import { StockSearchService } from '../services/stock-search.service';
+import { StockSearchService } from '../../services/stock-search.service';
 
 @Component({
   selector: 'app-search-field',
@@ -15,7 +16,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   public searchTermControl = new FormControl('', Validators.required);
   private searchTermSubscription: Subscription;
 
-  constructor(private stockSearch: StockSearchService) {}
+  constructor(private stockSearch: StockSearchService, private store: StoreService) {}
 
   ngOnInit(): void {
     this.searchTermSubscription = this.searchTermControl.valueChanges
@@ -29,5 +30,9 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.searchTermSubscription.unsubscribe();
+  }
+
+  public handleStockClick(stock: StockInformation): void {
+    this.store.addSelectedStock(stock);
   }
 }
