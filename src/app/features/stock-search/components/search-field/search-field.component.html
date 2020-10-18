@@ -1,6 +1,6 @@
 <input type="text" [formControl]="searchTermControl" placeholder="Search stock">
 
-<ng-container *ngIf="stockSearchResults$ | async as stockSearchResults">
+<ng-container *ngIf="filteredStockSearchResults$ | async as stockSearchResults">
   <ul>
     <li *ngFor="let stock of stockSearchResults" (click)="handleStockClick(stock)">
       {{ stock.symbol }} - {{ stock.name}}
