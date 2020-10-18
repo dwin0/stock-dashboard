@@ -1,1 +1,9 @@
-<input type="text" [formControl]="searchTermControl">
+<input type="text" [formControl]="searchTermControl" placeholder="Search stock">
+
+<ng-container *ngIf="stockSearchResults$ | async as stockSearchResults">
+  <ul>
+    <li *ngFor="let stock of stockSearchResults">
+      {{ stock.symbol }} - {{ stock.name}}
+    </li>
+  </ul>
+</ng-container>
