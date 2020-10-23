@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "stockdashboard-74e04": {
+      "hosting": {
+        "stock-dashboard": [
+          "stockdashboard-74e04"
+        ]
+      }
+    }
+  }
+}

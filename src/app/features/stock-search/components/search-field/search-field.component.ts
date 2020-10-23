@@ -3,8 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { StoreService } from 'src/app/core/services/store.service';
-import { StockInformation } from '../../../../shared/models/stock-information.model';
-
+import { Stock } from '../../../../shared/models/stock.model';
 import { StockSearchService } from '../../services/stock-search.service';
 
 @Component({
@@ -13,8 +12,7 @@ import { StockSearchService } from '../../services/stock-search.service';
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
   public searchTermControl = new FormControl('', Validators.required);
-  public filteredStockSearchResults$: Observable<StockInformation[]>;
-  public selectedStocks$: Observable<StockInformation[]>;
+  public filteredStockSearchResults$: Observable<Stock[]>;
 
   private searchTermSubscription: Subscription;
 
@@ -23,19 +21,20 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.searchTermSubscription = this.searchTermControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((searchTerm) => this.handleChanges(searchTerm));
+      .subscribe((searchTerm) => this.performSearch(searchTerm));
 
     const stockSearchResults$ = this.stockSearch.getSearchResults();
-    this.selectedStocks$ = this.store.getSelectedStocks();
+    const selectedStocks$ = this.store.getSelectedStocks();
 
-    this.filteredStockSearchResults$ = combineLatest([stockSearchResults$, this.selectedStocks$]).pipe(
-      map(([stockSearchResults, selectedStocks]) =>
-        stockSearchResults.filter((result) => !selectedStocks.includes(result))
-      )
+    this.filteredStockSearchResults$ = combineLatest([stockSearchResults$, selectedStocks$]).pipe(
+      map(([stockSearchResults, selectedStocks]) => {
+        const selectedStocksSymbols = selectedStocks.map((stock) => stock.symbol);
+        return stockSearchResults.filter((result) => !selectedStocksSymbols.includes(result.symbol));
+      })
     );
   }
 
-  public handleChanges(searchTerm: string): void {
+  public performSearch(searchTerm: string): void {
     this.stockSearch.search(searchTerm);
   }
 
@@ -43,7 +42,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
     this.searchTermSubscription.unsubscribe();
   }
 
-  public handleStockClick(stock: StockInformation): void {
+  public selectStock(stock: Stock): void {
     this.store.addSelectedStock(stock);
   }
 }

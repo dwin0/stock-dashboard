@@ -2,7 +2,7 @@
 
 <ng-container *ngIf="filteredStockSearchResults$ | async as stockSearchResults">
   <ul>
-    <li *ngFor="let stock of stockSearchResults" (click)="handleStockClick(stock)">
+    <li *ngFor="let stock of stockSearchResults" (click)="selectStock(stock)">
       {{ stock.symbol }} - {{ stock.name}}
     </li>
   </ul>

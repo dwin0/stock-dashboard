@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
-import { StockInformation } from '../../../shared/models/stock-information.model';
+import { Stock } from '../../../shared/models/stock.model';
 import { StockSearchResult } from '../models/stock-search-result.model';
 
 @Injectable({
@@ -14,13 +14,13 @@ export class StockSearchService {
   private QUERY_URL = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH';
   private API_KEY = environment.API_KEY;
 
-  private searchResults$: BehaviorSubject<StockInformation[]>;
+  private searchResults$: BehaviorSubject<Stock[]>;
 
   constructor(private http: HttpClient) {
     this.searchResults$ = new BehaviorSubject([]);
   }
 
-  public getSearchResults(): BehaviorSubject<StockInformation[]> {
+  public getSearchResults(): BehaviorSubject<Stock[]> {
     return this.searchResults$;
   }
 

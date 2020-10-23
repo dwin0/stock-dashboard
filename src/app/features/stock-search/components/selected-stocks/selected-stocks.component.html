@@ -2,7 +2,7 @@
 
 <ng-container *ngIf="selectedStocks$ | async as selectedStocks">
   <ul *ngIf="selectedStocks.length; else noStocksSelected">
-    <li *ngFor="let stock of selectedStocks">
+    <li *ngFor="let stock of selectedStocks" (click)="removeStock(stock)">
       {{ stock.symbol }} - {{ stock.name }}
     </li>
   </ul>

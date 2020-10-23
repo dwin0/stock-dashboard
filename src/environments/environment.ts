@@ -2,11 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { API_KEY } from './local.env';
+import { API_KEY, FIREBASE_CONFIG } from './local.env';
 
 export const environment = {
   production: false,
   API_KEY,
+  FIREBASE_CONFIG,
 };
 
 /*
