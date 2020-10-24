@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { StoreService } from 'src/app/core/services/store.service';
@@ -11,14 +11,23 @@ import { StockSearchService } from '../../services/stock-search.service';
   templateUrl: './search-field.component.html',
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
-  public searchTermControl = new FormControl('', Validators.required);
+  public searchTermControl: FormControl;
   public filteredStockSearchResults$: Observable<Stock[]>;
+  public currentSelectedStock: Stock;
+  public currentSelectedStockDetails: FormGroup;
 
   private searchTermSubscription: Subscription;
 
   constructor(private stockSearch: StockSearchService, private store: StoreService) {}
 
   ngOnInit(): void {
+    this.searchTermControl = new FormControl('', Validators.required);
+    this.currentSelectedStockDetails = new FormGroup({
+      buyDate: new FormControl(null, Validators.required),
+      amount: new FormControl(0, [Validators.required, Validators.min(0)]),
+      price: new FormControl(0, [Validators.required, Validators.min(0)]),
+    });
+
     this.searchTermSubscription = this.searchTermControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((searchTerm) => this.performSearch(searchTerm));
@@ -43,6 +52,18 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   }
 
   public selectStock(stock: Stock): void {
-    this.store.addSelectedStock(stock);
+    this.currentSelectedStock = stock;
+  }
+
+  public unselectStock(): void {
+    this.currentSelectedStock = null;
+  }
+
+  public saveSelectedStock(): void {
+    console.log(this.currentSelectedStockDetails.value);
+
+    // this.store.addSelectedStock(stock);
+
+    // this.currentSelectedStockDetails.reset();
   }
 }

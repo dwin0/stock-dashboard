@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -17,6 +17,9 @@ export class ModalComponent {
   @Input()
   public content: TemplateRef<any>;
 
+  @Output()
+  public modalClosed = new EventEmitter<void>();
+
   public closeModalOutsideClick(event: MouseEvent): void {
     const isClickInsideModalBox = this.modalBox.nativeElement.contains(event.target);
 
@@ -27,5 +30,6 @@ export class ModalComponent {
 
   public closeModal(): void {
     this.isVisible = false;
+    this.modalClosed.emit();
   }
 }
