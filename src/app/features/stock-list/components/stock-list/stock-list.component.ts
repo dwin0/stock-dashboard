@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { StoreService } from 'src/app/core/services/store.service';
-import { SavedSelectedStock } from 'src/app/features/stock-search/models/saved-selected-stock.model';
+import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
 
 @Component({
   selector: 'app-stock-list',

@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { map, share, tap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
-import { SelectedStock } from 'src/app/features/stock-search/models/selected-stock.model';
-import { SavedSelectedStock } from 'src/app/features/stock-search/models/saved-selected-stock.model';
+import { SelectedStock } from 'src/app/shared/models/selected-stock.model';
+import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,4 +36,8 @@ export class StoreService {
       .delete()
       .catch((error) => console.error(error));
   }
+
+  public addStockPurchase(): void {}
+
+  public removeStockPurchase(): void {}
 }

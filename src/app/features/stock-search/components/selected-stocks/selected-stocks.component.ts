@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { StoreService } from 'src/app/core/services/store.service';
-import { SavedSelectedStock } from '../../models/saved-selected-stock.model';
+import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
 
 @Component({
   selector: 'app-selected-stocks',
