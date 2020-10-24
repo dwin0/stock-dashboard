@@ -3,18 +3,18 @@ import { Observable } from 'rxjs';
 import { map, share, tap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
-import { Stock } from 'src/app/shared/models/stock.model';
 import { SelectedStock } from 'src/app/features/stock-search/models/selected-stock.model';
+import { SavedSelectedStock } from 'src/app/features/stock-search/models/saved-selected-stock.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
-  private firebaseStocks: AngularFirestoreCollection<Stock>;
-  private selectedStocks$: Observable<SelectedStock[]>;
+  private firebaseStocks: AngularFirestoreCollection<SelectedStock>;
+  private selectedStocks$: Observable<SavedSelectedStock[]>;
 
   constructor(fireStore: AngularFirestore) {
-    this.firebaseStocks = fireStore.collection<Stock>('stocks');
+    this.firebaseStocks = fireStore.collection<SelectedStock>('stocks');
     this.selectedStocks$ = this.firebaseStocks.snapshotChanges().pipe(
       map((changes) => changes.map((c) => ({ id: c.payload.doc.id, ...c.payload.doc.data() }))),
       tap(console.log),
@@ -22,15 +22,15 @@ export class StoreService {
     );
   }
 
-  public getSelectedStocks(): Observable<SelectedStock[]> {
+  public getSelectedStocks(): Observable<SavedSelectedStock[]> {
     return this.selectedStocks$;
   }
 
-  public addSelectedStock(stock: Stock): void {
+  public addSelectedStock(stock: SelectedStock): void {
     this.firebaseStocks.add(stock).catch((error) => console.error(error));
   }
 
-  public deleteSelectedStock(stock: SelectedStock): void {
+  public deleteSelectedStock(stock: SavedSelectedStock): void {
     this.firebaseStocks
       .doc(stock.id)
       .delete()
