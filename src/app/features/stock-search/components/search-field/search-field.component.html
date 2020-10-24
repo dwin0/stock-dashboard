@@ -7,3 +7,9 @@
     </li>
   </ul>
 </ng-container>
+
+<ng-template #modalContent>
+  <p>hello world</p>
+</ng-template>
+
+<app-modal [isVisible]="true" [title]="'Stock buy information'" [content]="modalContent"></app-modal>

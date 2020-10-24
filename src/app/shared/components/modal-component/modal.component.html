@@ -1,0 +1,11 @@
+<div class="modal" *ngIf="isVisible" (click)="closeModalOutsideClick($event)">
+  <div class="modal__box" #modalBox>
+    <button class="modal__close-button" (click)="closeModal()">X</button>
+    <div class="modal__header">
+      <h1>{{title}}</h1>
+    </div>
+    <div>
+      <ng-template [ngTemplateOutlet]="content"></ng-template>
+    </div>
+  </div>
+</div>

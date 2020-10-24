@@ -28,8 +28,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/assets/sass/styles.sass"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/partials/"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -92,7 +97,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/assets/sass/styles.sass"
             ],
             "scripts": []
           }

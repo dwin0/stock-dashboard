@@ -1,0 +1,30 @@
+@import _colors
+
+.modal
+  position: absolute
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background: $light-black
+
+  display: flex
+  justify-content: center
+  align-items: center
+
+  &__box
+    position: relative
+    background: $white
+    padding: 20px
+    width: 40vw
+    max-width: 600px
+
+  &__close-button
+    position: absolute
+    top: 0
+    right: 0
+    width: 40px
+    height: 40px
+
+  &__header
+    border-bottom: 1px solid $light-black
