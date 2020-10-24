@@ -29,7 +29,7 @@ export class StockSearchService {
       .get<StockSearchResult>(`${this.QUERY_URL}&keywords=${searchTerm}&apikey=${this.API_KEY}`)
       .pipe(
         map((result) =>
-          result.bestMatches.map((match) => ({
+          (result.bestMatches || []).map((match) => ({
             symbol: match['1. symbol'],
             name: match['2. name'],
           }))
