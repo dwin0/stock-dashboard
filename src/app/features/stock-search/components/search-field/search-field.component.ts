@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { StoreService } from 'src/app/core/services/store.service';
 import { Stock } from '../../../../shared/models/stock.model';
+import { SelectedStock } from '../../models/selected-stock.model';
 import { StockSearchService } from '../../services/stock-search.service';
 
 @Component({
@@ -18,16 +19,23 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
 
   private searchTermSubscription: Subscription;
 
-  constructor(private stockSearch: StockSearchService, private store: StoreService) {}
+  constructor(private stockSearch: StockSearchService, private store: StoreService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.searchTermControl = new FormControl('', Validators.required);
-    this.currentSelectedStockDetails = new FormGroup({
-      buyDate: new FormControl(null, Validators.required),
-      amount: new FormControl(0, [Validators.required, Validators.min(0)]),
-      price: new FormControl(0, [Validators.required, Validators.min(0)]),
-    });
+    this.setupForms();
+    this.setupSearchResults();
+  }
 
+  private setupForms(): void {
+    this.searchTermControl = this.fb.control('', Validators.required);
+    this.currentSelectedStockDetails = this.fb.group({
+      buyDate: [null, Validators.required],
+      amount: [0, [Validators.required, Validators.min(0)]],
+      price: [0, [Validators.required, Validators.min(0)]],
+    });
+  }
+
+  private setupSearchResults(): void {
     this.searchTermSubscription = this.searchTermControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((searchTerm) => this.performSearch(searchTerm));
@@ -47,10 +55,6 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
     this.stockSearch.search(searchTerm);
   }
 
-  ngOnDestroy(): void {
-    this.searchTermSubscription.unsubscribe();
-  }
-
   public selectStock(stock: Stock): void {
     this.currentSelectedStock = stock;
   }
@@ -60,10 +64,18 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   }
 
   public saveSelectedStock(): void {
-    console.log(this.currentSelectedStockDetails.value);
+    const stock: SelectedStock = {
+      ...this.currentSelectedStock,
+      ...this.currentSelectedStockDetails.value,
+    };
 
-    // this.store.addSelectedStock(stock);
+    this.store.addSelectedStock(stock);
 
-    // this.currentSelectedStockDetails.reset();
+    this.unselectStock();
+    this.currentSelectedStockDetails.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.searchTermSubscription.unsubscribe();
   }
 }
