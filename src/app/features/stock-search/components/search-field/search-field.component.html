@@ -7,33 +7,3 @@
     </li>
   </ul>
 </ng-container>
-<!--
-<ng-template #modalContent>
-  <p>{{ currentSelectedStock.symbol }}</p>
-  <p>{{ currentSelectedStock.name }}</p>
-
-  <form [formGroup]="currentSelectedStockDetails" (ngSubmit)="saveSelectedStock()">
-    <div>
-      <label>
-        Buy date:
-        <input type="date" formControlName="buyDate" />
-      </label>
-    </div>
-    <div>
-      <label>
-        Amount:
-        <input type="number" formControlName="amount">
-      </label>
-    </div>
-    <div>
-      <label>
-        Price:
-        <input type="number" step="0.01" formControlName="price">
-      </label>
-    </div>
-    <button type="submit">Save</button>
-  </form>
-</ng-template>
-
-<app-modal [isVisible]="currentSelectedStock" [title]="'Stock buy information'" [content]="modalContent"
-  (modalClosed)="unselectStock()"></app-modal> -->

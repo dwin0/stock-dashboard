@@ -14,8 +14,6 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   public searchTermControl: FormControl;
   public filteredStockSearchResults$: Observable<Stock[]>;
   private searchTermSubscription: Subscription;
-  // public currentSelectedStock: Stock;
-  // public currentSelectedStockDetails: FormGroup;
 
   constructor(private stockSearch: StockSearchService, private store: StoreService, private fb: FormBuilder) {}
 
@@ -26,11 +24,6 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
 
   private setupForm(): void {
     this.searchTermControl = this.fb.control('', Validators.required);
-    // this.currentSelectedStockDetails = this.fb.group({
-    //   buyDate: [null, Validators.required],
-    //   amount: [0, [Validators.required, Validators.min(0)]],
-    //   price: [0, [Validators.required, Validators.min(0)]],
-    // });
   }
 
   private setupSearchResults(): void {
@@ -56,26 +49,6 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
   public selectStock(stock: Stock): void {
     this.store.addSelectedStock(stock);
   }
-
-  // public selectStock(stock: Stock): void {
-  //   this.currentSelectedStock = stock;
-  // }
-
-  // public unselectStock(): void {
-  //   this.currentSelectedStock = null;
-  // }
-
-  // public saveSelectedStock(): void {
-  //   const stock: SelectedStock = {
-  //     ...this.currentSelectedStock,
-  //     ...this.currentSelectedStockDetails.value,
-  //   };
-
-  //   this.store.addSelectedStock(stock);
-
-  //   this.unselectStock();
-  //   this.currentSelectedStockDetails.reset();
-  // }
 
   ngOnDestroy(): void {
     this.searchTermSubscription.unsubscribe();

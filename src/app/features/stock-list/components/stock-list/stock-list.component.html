@@ -1,13 +1,60 @@
-<table class="stock-list__table">
-  <thead class="stock-list__table-header">
-    <th>Symbol</th>
-    <th>Name</th>
-    <th>Amount</th>
+<table class="stock-list">
+  <thead>
+    <td>Symbol</td>
+    <td>Name</td>
+    <td>Amount</td>
+    <td>Buy date</td>
+    <td>Price</td>
   </thead>
   <tbody>
-    <tr *ngFor="let stock of selectedStocks$ | async">
-      <td>{{ stock.symbol }}</td>
-      <td>{{ stock.name }}</td>
-      <td>{{ stock.amount }}</td>
-    </tr>
+    <ng-container *ngFor="let stock of selectedStocks$ | async">
+      <tr>
+        <td>{{ stock.symbol }}</td>
+        <td>{{ stock.name }}</td>
+        <td>
+          <p>total</p>
+          <button (click)="addStockPurchase(stock)">+</button>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let purchase of stock.purchases">
+        <td></td>
+        <td></td>
+        <td>{{ purchase.amount }}</td>
+        <td>{{ purchase.buyDate }}</td>
+        <td>{{ purchase.price }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
 </table>
+
+<ng-template #modalContent>
+  <p>{{ stockToAddPurchase.symbol }}</p>
+  <p>{{ stockToAddPurchase.name }}</p>
+
+  <form [formGroup]="stockPurchaseDetailsForm" (ngSubmit)="saveStockPurchase()">
+    <div>
+      <label>
+        Buy date:
+        <input type="date" formControlName="buyDate" />
+      </label>
+    </div>
+    <div>
+      <label>
+        Amount:
+        <input type="number" formControlName="amount">
+      </label>
+    </div>
+    <div>
+      <label>
+        Price:
+        <input type="number" step="0.01" formControlName="price">
+      </label>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</ng-template>
+
+<app-modal [isVisible]="stockToAddPurchase" [title]="'Stock purchase information'" [content]="modalContent"
+  (modalClosed)="unselectStockToAddPurchase()"></app-modal>

@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 
 import { SelectedStock } from 'src/app/shared/models/selected-stock.model';
 import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
+import { StockPurchase } from 'src/app/shared/models/stock-purchase';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,13 @@ export class StoreService {
       .catch((error) => console.error(error));
   }
 
-  public addStockPurchase(): void {}
+  public addStockPurchase(stock: SavedSelectedStock, stockPurchase: StockPurchase): void {
+    this.firebaseStocks.doc(stock.id).update({
+      purchases: [...(stock.purchases || []), stockPurchase],
+    });
+  }
 
-  public removeStockPurchase(): void {}
+  public removeStockPurchase(): void {
+    // TODO:
+  }
 }
