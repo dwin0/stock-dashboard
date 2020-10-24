@@ -2,6 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
 
+## Prerequesites
+
+1. Create the following file `src/environments/local.env.ts`
+2. Create an API from ALPHA VANTAGE: https://www.alphavantage.co/support/#api-key and add it as `API_KEY`.
+3. Create a Firebase project and add the API key as well as the project id:
+
+```js
+export const API_KEY = '';
+export const FIREBASE_CONFIG = {
+  apiKey: '',
+  projectId: '',
+};
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
