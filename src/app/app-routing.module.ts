@@ -7,14 +7,18 @@ const routes: Routes = [
     loadChildren: () => import('./features/stock-search/stock-search.module').then((m) => m.StockSearchModule),
   },
   {
+    path: 'list',
+    loadChildren: () => import('./features/stock-list/stock-list.module').then((m) => m.StockListModule),
+  },
+  {
     path: '',
     redirectTo: '/search',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
