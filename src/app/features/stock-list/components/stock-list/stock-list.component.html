@@ -1,1 +1,13 @@
-stock list component
+<table class="stock-list__table">
+  <thead class="stock-list__table-header">
+    <th>Symbol</th>
+    <th>Name</th>
+    <th>Amount</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stock of selectedStocks$ | async">
+      <td>{{ stock.symbol }}</td>
+      <td>{{ stock.name }}</td>
+      <td>{{ stock.amount }}</td>
+    </tr>
+</table>
