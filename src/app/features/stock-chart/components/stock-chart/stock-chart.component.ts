@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+import { StoreService } from 'src/app/core/services/store.service';
 import { StockTimeSeriesService } from '../../services/stock-time-series.service';
 
 @Component({
@@ -6,16 +8,12 @@ import { StockTimeSeriesService } from '../../services/stock-time-series.service
   templateUrl: './stock-chart.component.html',
 })
 export class StockChartComponent implements OnInit {
-  private fakeStock = {
-    id: '1TgUEus9LvmTASmJQ13c',
-    name: 'Apple Inc.',
-    purchases: [],
-    symbol: 'AAPL',
-  };
-
-  constructor(private stockTimeSeries: StockTimeSeriesService) {}
+  constructor(private stockTimeSeries: StockTimeSeriesService, private store: StoreService) {}
 
   public ngOnInit(): void {
-    this.stockTimeSeries.getTimeSeries(this.fakeStock);
+    const timeSeries$ = this.store
+      .getSelectedStocks$()
+      .pipe(switchMap((stocks) => this.stockTimeSeries.getTimeSeries(stocks)))
+      .subscribe(console.log);
   }
 }
