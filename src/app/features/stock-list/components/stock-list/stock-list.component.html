@@ -1,5 +1,5 @@
 <table class="stock-list">
-  <thead>
+  <thead class="stock-list__header">
     <td>Symbol</td>
     <td>Name</td>
     <td>Amount</td>
@@ -8,15 +8,14 @@
   </thead>
   <tbody>
     <ng-container *ngFor="let stock of selectedStocks$ | async">
-      <tr>
-        <td>{{ stock.symbol }}</td>
-        <td>{{ stock.name }}</td>
-        <td>
-          <p>total</p>
-          <button (click)="addStockPurchase(stock)">+</button>
+      <tr class="stock-list__stock-row">
+        <td class="stock-list__stock-row-data">{{ stock.symbol }}</td>
+        <td class="stock-list__stock-row-data">{{ stock.name }}</td>
+        <td class="stock-list__stock-row-data">
+          {{ getTotalNumberOfStocks(stock) }}
         </td>
-        <td></td>
-        <td></td>
+        <td class="stock-list__stock-row-data"></td>
+        <td class="stock-list__stock-row-data"></td>
       </tr>
       <tr *ngFor="let purchase of stock.purchases">
         <td></td>
@@ -24,6 +23,13 @@
         <td>{{ purchase.amount }}</td>
         <td>{{ purchase.buyDate }}</td>
         <td>{{ purchase.price }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td colspan="3">
+          <button class="stock-list__add-button" (click)="addStockPurchase(stock)">+</button>
+        </td>
       </tr>
     </ng-container>
   </tbody>

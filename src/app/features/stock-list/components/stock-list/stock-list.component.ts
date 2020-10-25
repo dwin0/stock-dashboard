@@ -29,6 +29,14 @@ export class StockListComponent implements OnInit {
     this.selectedStocks$ = this.store.getSelectedStocks();
   }
 
+  public getTotalNumberOfStocks(stock: SavedSelectedStock): number {
+    if (!stock.purchases) {
+      return 0;
+    }
+
+    return stock.purchases.reduce((sum, purchase) => sum + purchase.amount, 0);
+  }
+
   public saveStockPurchase(): void {
     this.formErrors = null;
 
