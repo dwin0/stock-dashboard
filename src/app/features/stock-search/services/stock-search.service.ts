@@ -3,20 +3,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
+import { AlphVantageService } from 'src/app/shared/services/alpha-vantage.service';
 import { Stock } from '../../../shared/models/stock.model';
 import { StockSearchResult } from '../models/stock-search-result.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StockSearchService {
-  private QUERY_URL = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH';
-  private API_KEY = environment.API_KEY;
+export class StockSearchService extends AlphVantageService {
+  private QUERY_URL = `${this.BASE_URL}function=SYMBOL_SEARCH`;
 
   private searchResults$: BehaviorSubject<Stock[]>;
 
   constructor(private http: HttpClient) {
+    super();
     this.searchResults$ = new BehaviorSubject([]);
   }
 
