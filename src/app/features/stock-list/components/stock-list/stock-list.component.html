@@ -54,6 +54,9 @@
     </div>
     <button type="submit">Save</button>
   </form>
+  <div *ngIf="formErrors">
+    <pre><p>{{ formErrors | json }}</p></pre>
+  </div>
 </ng-template>
 
 <app-modal [isVisible]="stockToAddPurchase" [title]="'Stock purchase information'" [content]="modalContent"

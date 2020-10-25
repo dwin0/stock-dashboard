@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { StoreService } from 'src/app/core/services/store.service';
 import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
+import { PurchaseDetailFormErrors } from '../../models/purchase-detail-form-errors';
 
 @Component({
   selector: 'app-stock-list',
@@ -14,29 +15,41 @@ export class StockListComponent implements OnInit {
   public selectedStocks$: Observable<SavedSelectedStock[]>;
   public stockToAddPurchase: SavedSelectedStock;
   public stockPurchaseDetailsForm: FormGroup;
+  public formErrors: PurchaseDetailFormErrors;
 
   constructor(private store: StoreService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.stockPurchaseDetailsForm = this.fb.group({
       buyDate: [null, Validators.required],
-      amount: [0, [Validators.required, Validators.min(0)]],
-      price: [0, [Validators.required, Validators.min(0)]],
+      amount: [null, [Validators.required, Validators.min(0)]],
+      price: [null, [Validators.required, Validators.min(0)]],
     });
 
     this.selectedStocks$ = this.store.getSelectedStocks();
   }
 
   public saveStockPurchase(): void {
-    if (this.stockPurchaseDetailsForm.invalid) {
-      console.error(this.stockPurchaseDetailsForm.errors); // TODO:
+    this.formErrors = null;
+
+    if (this.stockPurchaseDetailsForm.valid) {
+      this.store.addStockPurchase(this.stockToAddPurchase, this.stockPurchaseDetailsForm.value);
+
+      this.unselectStockToAddPurchase();
+      this.stockPurchaseDetailsForm.reset();
       return;
     }
 
-    this.store.addStockPurchase(this.stockToAddPurchase, this.stockPurchaseDetailsForm.value);
+    this.formErrors = Object.keys(this.stockPurchaseDetailsForm.controls).reduce((acc, control) => {
+      const errors = this.stockPurchaseDetailsForm.get(control).errors;
 
-    this.unselectStockToAddPurchase();
-    this.stockPurchaseDetailsForm.reset();
+      return errors
+        ? {
+            ...acc,
+            [control]: errors,
+          }
+        : acc;
+    }, {});
   }
 
   addStockPurchase(stock: SavedSelectedStock): void {
