@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/stock-list/stock-list.module').then((m) => m.StockListModule),
   },
   {
+    path: 'chart',
+    loadChildren: () => import('./features/stock-chart/stock-chart.module').then((m) => m.StockChartModule),
+  },
+  {
     path: '',
     redirectTo: '/search',
     pathMatch: 'full',
