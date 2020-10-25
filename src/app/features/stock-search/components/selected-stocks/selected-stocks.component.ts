@@ -14,7 +14,7 @@ export class SelectedStocksComponent implements OnInit {
   constructor(private store: StoreService) {}
 
   ngOnInit(): void {
-    this.selectedStocks$ = this.store.getSelectedStocks();
+    this.selectedStocks$ = this.store.getSelectedStocks$();
   }
 
   removeStock(stock: SavedSelectedStock): void {

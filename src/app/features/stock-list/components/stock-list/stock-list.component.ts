@@ -27,7 +27,7 @@ export class StockListComponent implements OnInit {
       price: [null, [Validators.required, Validators.min(0)]],
     });
 
-    this.selectedStocks$ = this.store.getSelectedStocks();
+    this.selectedStocks$ = this.store.getSelectedStocks$();
   }
 
   public getTotalNumberOfStocks(stock: SavedSelectedStock): number {

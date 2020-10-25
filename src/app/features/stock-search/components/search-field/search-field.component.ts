@@ -32,7 +32,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
       .subscribe((searchTerm) => this.performSearch(searchTerm));
 
     const stockSearchResults$ = this.stockSearch.getSearchResults();
-    const selectedStocks$ = this.store.getSelectedStocks();
+    const selectedStocks$ = this.store.getSelectedStocks$();
 
     this.filteredStockSearchResults$ = combineLatest([stockSearchResults$, selectedStocks$]).pipe(
       map(([stockSearchResults, selectedStocks]) => {

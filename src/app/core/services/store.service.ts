@@ -23,7 +23,7 @@ export class StoreService {
     );
   }
 
-  public getSelectedStocks(): Observable<SavedSelectedStock[]> {
+  public getSelectedStocks$(): Observable<SavedSelectedStock[]> {
     return this.selectedStocks$;
   }
 
