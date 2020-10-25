@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { StoreService } from 'src/app/core/services/store.service';
 import { SavedSelectedStock } from 'src/app/shared/models/saved-selected-stock.model';
+import { StockPurchase } from 'src/app/shared/models/stock-purchase';
 import { PurchaseDetailFormErrors } from '../../models/purchase-detail-form-errors';
 
 @Component({
@@ -37,6 +38,16 @@ export class StockListComponent implements OnInit {
     return stock.purchases.reduce((sum, purchase) => sum + purchase.amount, 0);
   }
 
+  public getSortedPurchases(stock: SavedSelectedStock): StockPurchase[] {
+    if (!stock.purchases) {
+      return [];
+    }
+
+    return stock.purchases.sort(
+      (purchase1, purchase2) => new Date(purchase1.buyDate).getTime() - new Date(purchase2.buyDate).getTime()
+    );
+  }
+
   public saveStockPurchase(): void {
     this.formErrors = null;
 
@@ -48,7 +59,11 @@ export class StockListComponent implements OnInit {
       return;
     }
 
-    this.formErrors = Object.keys(this.stockPurchaseDetailsForm.controls).reduce((acc, control) => {
+    this.formErrors = this.collectFormErrors();
+  }
+
+  private collectFormErrors(): PurchaseDetailFormErrors {
+    return Object.keys(this.stockPurchaseDetailsForm.controls).reduce((acc, control) => {
       const errors = this.stockPurchaseDetailsForm.get(control).errors;
 
       return errors
@@ -60,7 +75,7 @@ export class StockListComponent implements OnInit {
     }, {});
   }
 
-  addStockPurchase(stock: SavedSelectedStock): void {
+  public addStockPurchase(stock: SavedSelectedStock): void {
     this.stockToAddPurchase = stock;
   }
 
