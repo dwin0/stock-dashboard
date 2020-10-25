@@ -1,1 +1,5 @@
-stock chart component
+<div *ngIf="lineChartData">
+  <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [legend]="true"
+    [chartType]="'line'">
+  </canvas>
+</div>
