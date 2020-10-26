@@ -17,7 +17,7 @@
         <td class="stock-list__stock-row-data"></td>
         <td class="stock-list__stock-row-data"></td>
       </tr>
-      <tr *ngFor="let purchase of getSortedPurchases(stock)">
+      <tr *ngFor="let purchase of getSortedPurchases(stock)" (click)="removeStockPurchase(stock, purchase)">
         <td></td>
         <td></td>
         <td>{{ purchase.amount }}</td>

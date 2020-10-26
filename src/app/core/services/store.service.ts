@@ -18,8 +18,7 @@ export class StoreService {
     this.firebaseStocks = fireStore.collection<SelectedStock>('stocks');
     this.selectedStocks$ = this.firebaseStocks.snapshotChanges().pipe(
       map((changes) => changes.map((c) => ({ id: c.payload.doc.id, ...c.payload.doc.data() }))),
-      tap(console.log),
-      share()
+      tap(console.log)
     );
   }
 
@@ -38,13 +37,16 @@ export class StoreService {
       .catch((error) => console.error(error));
   }
 
+  // TODO: add purchase id
   public addStockPurchase(stock: SavedSelectedStock, stockPurchase: StockPurchase): void {
     this.firebaseStocks.doc(stock.id).update({
       purchases: [...(stock.purchases || []), stockPurchase],
     });
   }
 
-  public removeStockPurchase(): void {
-    // TODO:
+  public removeStockPurchase(stock: SavedSelectedStock, stockPurchase: StockPurchase): void {
+    this.firebaseStocks.doc(stock.id).update({
+      purchases: stock.purchases.filter((purchase) => purchase.buyDate !== stockPurchase.buyDate),
+    });
   }
 }

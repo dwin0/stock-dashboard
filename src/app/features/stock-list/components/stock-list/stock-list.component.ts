@@ -82,4 +82,8 @@ export class StockListComponent implements OnInit {
   public unselectStockToAddPurchase(): void {
     this.stockToAddPurchase = null;
   }
+
+  public removeStockPurchase(stock: SavedSelectedStock, stockPurchase: StockPurchase): void {
+    this.store.removeStockPurchase(stock, stockPurchase);
+  }
 }
